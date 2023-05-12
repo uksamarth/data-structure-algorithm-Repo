@@ -8,10 +8,10 @@ struct stack
     int top;
 };
 
-void push(struct stack *sptr, int num, FILE *fstack, FILE *fpush)
+void push(struct stack *sptr, int num, FILE *log, FILE *fpush)
 {
-    fstack = fopen("stack.txt", "w");
-    fpush = fopen("push.txt", "w");
+    log = fopen("logfile.txt", "a");
+    fpush = fopen("push.txt", "a");
     if(sptr->top == SIZE - 1)
     {
         printf("Stack Overflow\n");
@@ -22,20 +22,20 @@ void push(struct stack *sptr, int num, FILE *fstack, FILE *fpush)
 
         sptr->data[sptr->top] = num;
 
-        fprintf(fstack, "%d\n", num); // Write the number to stack file
+        fprintf(log, "push\n", num);
 
-        fprintf(fpush, "%d\n", num); // Write the number to push file
+        fprintf(fpush, "%d\n", num);
 
     }
-        fclose(fstack);
+        fclose(log);
         fclose(fpush);
 
 }
 
-void pop(struct stack *sptr, FILE *fstack, FILE *fpop)
+void pop(struct stack *sptr, FILE *log, FILE *fpop)
 {
-    fstack = fopen("stack.txt", "w");
-    fpop = fopen("pop.txt", "w");
+    log = fopen("logfile.txt", "a");
+    fpop = fopen("pop.txt", "a");
     int num;
 
     if(sptr->top == -1)
@@ -50,34 +50,22 @@ void pop(struct stack *sptr, FILE *fstack, FILE *fpop)
 
         printf("%d\n", num);
 
-        fprintf(fstack, "%d\n", num); // Write the number to stack file
+        fprintf(log, "pop\n");
 
-        fprintf(fpop, "%d\n", num); // Write the number to pop file
+        fprintf(fpop, "%d\n", num);
     }
 
-        fclose(fstack);
+        fclose(log);
         fclose(fpop);
 }
-/*
-void peek(struct stack *sptr)
-{
-    if(sptr->top == -1)
-    {
-        printf("Stack empty\n");
-    }
-    else
-    {
-        printf("%d", sptr->data[sptr->top]);
-    }
-}
-*/
+
 void display(struct stack *sptr, FILE *fstack) {
-    fstack = fopen("stack.txt","w");
+    fstack = fopen("stack.txt","a");
     if (sptr->top == -1) {
         printf("Stack empty\n");
         return;
     }
-    fprintf(fstack, "Current stack: ");
+    fprintf(fstack, "Currently stack has: ");
     for (int i = sptr->top; i >= 0; i--)
         {
         fprintf(fstack, "%d ", sptr->data[i]);
@@ -95,27 +83,22 @@ int main()
     struct stack * sptr;
     sptr = &s;
     sptr->top = -1;
-    FILE *fp;
     FILE *fstack;
     FILE *fpop;
     FILE *fpush;
+    FILE *log;
     int p=1,q=100;
     int rand_num;
 
-    fp = fopen("input.txt", "r");
 
-    fstack = fopen("stack.txt", "w");
+    fstack = fopen("stack.txt", "a");
 
-    fpush = fopen("push.txt", "w");
+    fpush = fopen("push.txt", "a");
 
-    fpop = fopen("pop.txt", "w");
+    fpop = fopen("pop.txt", "a");
+    log = fopen("logfile.txt","a");
 
     int num, ch;
-
-    while(fscanf(fp, "%d", &num) != EOF)
-    {
-        push(sptr, num, fstack, fpush);
-    }
 
     while(1)
     {
@@ -140,10 +123,11 @@ int main()
                 printf("Enter valid choice\n");
                 break;
         }
-        fclose(fp);
+
         fclose(fstack);
         fclose(fpush);
         fclose(fpop);
+        fclose(log);
     }
     return 0;
 }
