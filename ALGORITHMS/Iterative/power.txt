@@ -1,0 +1,2 @@
+Value of x^y is:
+0.000000
