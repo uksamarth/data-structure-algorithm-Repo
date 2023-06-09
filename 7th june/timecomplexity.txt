@@ -1,0 +1,1 @@
+Inorder,Time = 54.000000 seconds preorder, Time = 47.000000 seconds postorder, Time = 55.000000 seconds 
