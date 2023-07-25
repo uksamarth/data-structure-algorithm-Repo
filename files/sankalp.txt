@@ -1,0 +1,2 @@
+Sorted array:
+5	10	41	
